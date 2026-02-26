@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, jsonify
 import datetime
 from google_sheet_api import write_data_to_sheet
 import pytz
@@ -8,16 +8,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '''<html>
-                    <body>
-                        <a href="/get_ip">Click here to get your IP address</a>
-                    </body>
-                </html>'''
+    return render_template('index.html')
 
 @app.route('/get_ip')
 def get_ip_address():
     forwarded_ip = request.headers.get('X-Forwarded-For')
-    
+
     if forwarded_ip:
         ip_address = forwarded_ip.split(',')[0]
     else:
@@ -28,12 +24,8 @@ def get_ip_address():
 
     write_data_to_sheet(ip_address, timestamp)
 
-    return f"Your IP address is: {ip_address}"
+    return jsonify({'ip': ip_address, 'timestamp': timestamp})
 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
-
-
-

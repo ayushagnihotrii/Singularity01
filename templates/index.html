@@ -1,20 +1,130 @@
-<!-- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Visitor Info</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Reveal — Discover Your IP</title>
+  <meta name="description" content="Instantly discover your public IP address with a single click.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Visitor Information</h1>
-    <p><strong>IP Address:</strong> {{ ip }}</p>
-    <p><strong>Browser Info:</strong> {{ agent }}</p>
+
+  <!-- Animated Background -->
+  <div class="bg-gradient"></div>
+
+  <!-- Floating Particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Main Card -->
+  <div class="card" id="main-card">
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+    </div>
+
+    <h1>IP Reveal</h1>
+    <p class="subtitle">Discover your public IP address instantly.<br>One click — no tracking, no logs stored on your device.</p>
+
+    <button class="btn-reveal" id="btn-reveal" onclick="revealIP()">
+      <span>Reveal My IP</span>
+      <svg viewBox="0 0 24 24">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <span class="loading-text">Fetching your IP…</span>
+    </div>
+
+    <!-- Result -->
+    <div class="result" id="result">
+      <div class="result-label">Your Public IP Address</div>
+      <div class="ip-display" id="ip-display">—</div>
+      <div class="result-meta">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span id="timestamp">—</span>
+      </div>
+      <button class="btn-copy" id="btn-copy" onclick="copyIP()">
+        <svg viewBox="0 0 24 24" id="copy-icon">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span id="copy-text">Copy to clipboard</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">Singularity01</div>
+
+  <script>
+    let currentIP = '';
+
+    async function revealIP() {
+      const btn = document.getElementById('btn-reveal');
+      const loading = document.getElementById('loading');
+      const result = document.getElementById('result');
+
+      // Hide button, show loading
+      btn.style.display = 'none';
+      loading.classList.add('active');
+      result.classList.remove('active');
+
+      try {
+        const response = await fetch('/get_ip');
+        const data = await response.json();
+
+        currentIP = data.ip;
+
+        document.getElementById('ip-display').textContent = data.ip;
+        document.getElementById('timestamp').textContent = 'Retrieved at ' + data.timestamp;
+
+        // Hide loading, show result
+        loading.classList.remove('active');
+        result.classList.add('active');
+      } catch (err) {
+        loading.classList.remove('active');
+        btn.style.display = 'inline-flex';
+        btn.querySelector('span').textContent = 'Try Again';
+        console.error('Failed to fetch IP:', err);
+      }
+    }
+
+    function copyIP() {
+      if (!currentIP) return;
+      navigator.clipboard.writeText(currentIP).then(() => {
+        const btn = document.getElementById('btn-copy');
+        const text = document.getElementById('copy-text');
+        btn.classList.add('copied');
+        text.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          text.textContent = 'Copy to clipboard';
+        }, 2000);
+      });
+    }
+  </script>
+
 </body>
-</html> -->
-
-
-
-  <html>
-      <head></head>
-      <body>
-          <a href="http://127.0.0.1:5000/get_ip">Click here to get your IP address</a>
-      </body>
-  </html>
+</html>

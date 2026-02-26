@@ -1,0 +1,452 @@
+/* ===== CSS Variables & Reset ===== */
+:root {
+  --bg-primary: #0a0a1a;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --border-card: rgba(255, 255, 255, 0.08);
+  --text-primary: #e8e8f0;
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --accent: #6c5ce7;
+  --accent-bright: #a29bfe;
+  --accent-glow: rgba(108, 92, 231, 0.4);
+  --success: #00cec9;
+  --success-glow: rgba(0, 206, 201, 0.3);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius: 20px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ===== Animated Gradient Background ===== */
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(108, 92, 231, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 60%, rgba(0, 206, 201, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(253, 121, 168, 0.08) 0%, transparent 50%);
+  animation: bgPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ===== Floating Particles ===== */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: float linear infinite;
+}
+
+.particle:nth-child(1) {
+  width: 4px; height: 4px;
+  background: var(--accent-bright);
+  left: 10%; top: 20%;
+  animation-duration: 12s;
+  animation-delay: 0s;
+}
+.particle:nth-child(2) {
+  width: 6px; height: 6px;
+  background: var(--success);
+  left: 25%; top: 70%;
+  animation-duration: 15s;
+  animation-delay: 2s;
+}
+.particle:nth-child(3) {
+  width: 3px; height: 3px;
+  background: rgba(253, 121, 168, 0.7);
+  left: 50%; top: 30%;
+  animation-duration: 10s;
+  animation-delay: 4s;
+}
+.particle:nth-child(4) {
+  width: 5px; height: 5px;
+  background: var(--accent-bright);
+  left: 70%; top: 80%;
+  animation-duration: 14s;
+  animation-delay: 1s;
+}
+.particle:nth-child(5) {
+  width: 4px; height: 4px;
+  background: var(--success);
+  left: 85%; top: 15%;
+  animation-duration: 11s;
+  animation-delay: 3s;
+}
+.particle:nth-child(6) {
+  width: 7px; height: 7px;
+  background: rgba(253, 121, 168, 0.5);
+  left: 40%; top: 60%;
+  animation-duration: 16s;
+  animation-delay: 5s;
+}
+.particle:nth-child(7) {
+  width: 3px; height: 3px;
+  background: var(--accent-bright);
+  left: 60%; top: 10%;
+  animation-duration: 13s;
+  animation-delay: 6s;
+}
+.particle:nth-child(8) {
+  width: 5px; height: 5px;
+  background: var(--success);
+  left: 15%; top: 50%;
+  animation-duration: 17s;
+  animation-delay: 7s;
+}
+
+@keyframes float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.5);
+  }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) translateX(40px) scale(1.2);
+  }
+}
+
+/* ===== Main Card ===== */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 480px;
+  padding: 48px 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  text-align: center;
+  box-shadow: 
+    0 0 80px rgba(108, 92, 231, 0.06),
+    0 32px 64px rgba(0, 0, 0, 0.4);
+  animation: cardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== Icon ===== */
+.icon-wrap {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--success));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px var(--accent-glow);
+  animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { box-shadow: 0 0 30px var(--accent-glow); }
+  50% { box-shadow: 0 0 50px var(--accent-glow), 0 0 20px var(--success-glow); }
+}
+
+.icon-wrap svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== Typography ===== */
+.card h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card .subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+/* ===== CTA Button ===== */
+.btn-reveal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--accent), #8b7cf7);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  overflow: hidden;
+  letter-spacing: 0.01em;
+}
+
+.btn-reveal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #8b7cf7, var(--accent));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-reveal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px var(--accent-glow), 0 0 60px rgba(108, 92, 231, 0.15);
+}
+
+.btn-reveal:hover::before {
+  opacity: 1;
+}
+
+.btn-reveal:active {
+  transform: translateY(0);
+}
+
+.btn-reveal span,
+.btn-reveal svg {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-reveal svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--transition);
+}
+
+.btn-reveal:hover svg {
+  transform: translateX(3px);
+}
+
+/* ===== Loading Spinner ===== */
+.loading {
+  display: none;
+  margin: 24px auto 0;
+}
+
+.loading.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent-bright);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ===== Result Section ===== */
+.result {
+  display: none;
+  margin-top: 32px;
+  animation: resultIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.result.active {
+  display: block;
+}
+
+@keyframes resultIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--success);
+  margin-bottom: 10px;
+}
+
+.ip-display {
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.result-meta {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.result-meta svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: var(--text-secondary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== Copy Button ===== */
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-copy:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+}
+
+.btn-copy.copied {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.btn-copy svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== Footer ===== */
+.footer {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 520px) {
+  .card {
+    padding: 36px 24px;
+    border-radius: 16px;
+  }
+  
+  .card h1 {
+    font-size: 1.3rem;
+  }
+  
+  .ip-display {
+    font-size: 1.4rem;
+  }
+  
+  .icon-wrap {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .icon-wrap svg {
+    width: 26px;
+    height: 26px;
+  }
+}

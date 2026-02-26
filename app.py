@@ -16,10 +16,12 @@ def index():
 
 @app.route('/get_ip')
 def get_ip_address():
-    if request.headers.get('X-Forwarded-For'):
-    ip_address = request.headers.get('X-Forwarded-For').split(',')[0]
-else:
-    ip_address = request.remote_addr
+    forwarded_ip = request.headers.get('X-Forwarded-For')
+    
+    if forwarded_ip:
+        ip_address = forwarded_ip.split(',')[0]
+    else:
+        ip_address = request.remote_addr
 
     ist = pytz.timezone('Asia/Kolkata')
     timestamp = datetime.datetime.now(ist).strftime('%Y-%m-%d %H:%M:%S')
@@ -28,9 +30,9 @@ else:
 
     return f"Your IP address is: {ip_address}"
 
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
 
 
 

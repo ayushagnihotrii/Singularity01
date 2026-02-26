@@ -16,7 +16,10 @@ def index():
 
 @app.route('/get_ip')
 def get_ip_address():
-    ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
+    if request.headers.get('X-Forwarded-For'):
+    ip_address = request.headers.get('X-Forwarded-For').split(',')[0]
+else:
+    ip_address = request.remote_addr
 
     ist = pytz.timezone('Asia/Kolkata')
     timestamp = datetime.datetime.now(ist).strftime('%Y-%m-%d %H:%M:%S')
